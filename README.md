@@ -1,1 +1,2 @@
-# CMProject
+# COMMUNITY Project
+
