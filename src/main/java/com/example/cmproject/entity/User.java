@@ -1,4 +1,4 @@
-package com.example.cmproject.auth.entity;
+package com.example.cmproject.entity;
 
 import lombok.Builder;
 import lombok.Getter;
