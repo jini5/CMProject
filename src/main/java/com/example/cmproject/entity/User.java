@@ -28,11 +28,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(name = "profile", nullable = false)
-    private String profile;
+    @Column(name = "profile_image", nullable = false)
+    private String profileImage;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "nick_name", nullable = false)
+    private String nickName;
 
     @Column(name = "email", nullable = false)
     private String email;
@@ -45,11 +45,6 @@ public class User {
 
     @Column(name = "birthday", nullable = false)
     private String birthday;
-
-    @Column(name = "sns")
-    private String sns;
-    @Column(name = "delete_check")
-    private String deleteCheck;
 
     @Column(name = "role", nullable = false)
     private String role;
@@ -67,22 +62,20 @@ public class User {
     }
 
     @Builder
-    public User(String email, String password,String profile, String name, String birthday, String phoneNumber, String role, String sns, String deleteCheck) {
+    public User(String email, String password,String profileImage, String nickName, String birthday, String phoneNumber, String role) {
         this.email = email;
         this.password = password;
-        this.profile=profile;
-        this.name = name;
+        this.profileImage=profileImage;
+        this.nickName = nickName;
         this.birthday = birthday;
         this.phoneNumber = phoneNumber;
         this.role = role;
-        this.sns = sns;
-        this.deleteCheck = deleteCheck;
     }
 
-    public void update(String changePassword,String profile, String name, String birthday, String phoneNumber) {
+    public void update(String changePassword,String profileImage, String nickName, String birthday, String phoneNumber) {
         this.password = changePassword;
-        this.profile=profile;
-        this.name = name;
+        this.profileImage=profileImage;
+        this.nickName = nickName;
         this.birthday = birthday;
         this.phoneNumber = phoneNumber;
     }

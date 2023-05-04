@@ -1,10 +1,12 @@
 package com.example.cmproject.entity;
 
+import com.example.cmproject.dto.CommentDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,56 +21,54 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long CommentId;
 
     @JsonIgnore
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
     @JsonIgnore
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @JsonIgnore
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "parent_comment_id")
-    private Comment parentComment;
+    @Column(nullable = false)
+    private Boolean likeStatus = false;
 
-    @JsonIgnore
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "to_user_id")
-    private User parentUser;
+    @Column(name = "LIKE_COUNT")// 좋아요갯수
+    private Integer likeCount = 0;
 
-    @OneToMany(mappedBy = "parentComment")
-    @OrderBy("createdAt asc")
-    private List<Comment> children = new ArrayList<>();
-
+    @Column(name = "content", nullable = false)
     private String content;
 
-    private boolean isDeleted;
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
+    private List<CommentLike> commentLikes = new ArrayList<>(); // 댓글 좋아요
 
-    public void setParentReply(Comment parentComment) {
-        this.parentComment = parentComment;
+    @Column(name = "created_time",nullable = false)
+    private LocalDateTime createdTime;
+
+    @Column(name = "updated_time",nullable = false)
+    private LocalDateTime updatedTime;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @JoinColumn(name = "parent_id")
+    private Comment parent;         // 부모 댓글
+
+    @Builder.Default
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent", orphanRemoval = true)
+    private List<Comment> children = new ArrayList<>(); // 자식 댓글
+
+    public void update(CommentDTO.CommentRequestDTO commentRequestDTO) {
+        this.content = commentRequestDTO.getContent();
     }
 
-    public void setParentUser(User parentUser) {
-        this.parentUser = parentUser;
+    public void updateParent(Comment parent){
+        this.parent = parent;
     }
 
-    public static Comment createReply(Post post, User user, String content) {
-        return Comment.builder()
-                .post(post)
-                .user(user)
-                .content(content).build();
-    }
-
-    public void updateReply(String content) {
-        this.content = content;
-    }
-
-    public void changeDeleteStatus() {
-        this.isDeleted = true;
+    public boolean validateUser(User user) {
+        return !this.user.equals(user);
     }
 }

@@ -15,6 +15,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -33,8 +35,8 @@ public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "board_id")
-    private Long boardId;
+    @Column(name = "post_id")
+    private Long postId;
 
     @Valid
     @JsonIgnore
@@ -50,6 +52,12 @@ public class Post {
 
     @Column(name = "content")
     private String content;
+
+    @OneToMany(mappedBy = "post", fetch = LAZY)
+    private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<PostLike> postLikes = new ArrayList<>(); // 댓글 좋아요
 
     @NotNull
     @Column(name = "role")
