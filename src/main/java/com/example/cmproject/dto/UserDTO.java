@@ -59,8 +59,8 @@ public class UserDTO {
     @ToString
     @ApiModel(value = "회원가입")
     public static class SignupReqDTO {
-        @ApiModelProperty(value = "이름", required = true)
-        private String userName;
+        @ApiModelProperty(value = "닉네임", required = true)
+        private String nickName;
         @ApiModelProperty(value = "이메일", required = true)
         private String userEmail;
         @ApiModelProperty(value = "비밀번호", required = true)
@@ -68,28 +68,23 @@ public class UserDTO {
         @ApiModelProperty(value = "비밀번호 확인", required = true)
         private String passwordConfirmation;
         @ApiModelProperty(value = "프로필이미지", required = true)
-        private String profile;
+        private String profileImage;
         @ApiModelProperty(value = "전화번호", required = true)
         private String userPhoneNumber;
         @ApiModelProperty(value = "생년월일", required = true)
         private String userBirthday;
 
-        @ApiModelProperty(value = "sns 로그인 여부", required = true)
-        private String sns;
-
 
         public User toEntity() {
 
             return User.builder()
-                    .name(userName)
+                    .nickName(nickName)
                     .email(userEmail)
-                    .profile(profile)
+                    .profileImage(profileImage)
                     .password(userPassword)
                     .phoneNumber(userPhoneNumber)
                     .birthday(userBirthday)
-                    .sns(sns)
                     .role("ROLE_USER")
-                    .deleteCheck("available")
                     .build();
         }
 
@@ -128,11 +123,11 @@ public class UserDTO {
     public static class PatchUserResDTO {
 
         @ApiModelProperty(value = "이름", required = true)
-        private String userName;
+        private String userNickName;
         @ApiModelProperty(value = "이메일", required = true)
         private String userEmail;
-        @ApiModelProperty(value = "프로필", required = true)
-        private String userProfile;
+        @ApiModelProperty(value = "프로필이미지", required = true)
+        private String userProfileImage;
         @ApiModelProperty(value = "전화번호", required = true)
         private String userPhoneNumber;
         @ApiModelProperty(value = "생년월일", required = true)
@@ -141,11 +136,11 @@ public class UserDTO {
 
 
         public PatchUserResDTO(User user) {
-            this.userName = user.getName();
+            this.userNickName = user.getNickName();
             this.userEmail = user.getEmail();
             this.userBirthday = user.getBirthday();
             this.userPhoneNumber = user.getPhoneNumber();
-            this.userProfile = user.getProfile();
+            this.userProfileImage = user.getProfileImage();
 
         }
     }
@@ -182,13 +177,13 @@ public class UserDTO {
     public static class UserListDto {
         private Long userId;
         private String userEmail;
-        private String userName;
+        private String userNickName;
         private String userRole;
 
         public UserListDto(User user) {
             this.userId = user.getUserId();
             this.userEmail = user.getEmail();
-            this.userName = user.getName();
+            this.userNickName = user.getNickName();
             this.userRole = user.getRole();
         }
     }
@@ -215,23 +210,19 @@ public class UserDTO {
         private String userName;
         private String userEmail;
         private String userPhoneNumber;
-        private String userProfile;
+        private String userProfileImage;
         private String userBirthday;
-        private String sns;
-        private String deleteCheck;
         private String userRole;
         private LocalDateTime createdDate;
         private LocalDateTime updatedDate;
 
         public UserDetailsForAdmin(User user) {
             this.userId = user.getUserId();
-            this.userName = user.getName();
+            this.userName = user.getNickName();
             this.userEmail = user.getEmail();
-            this.userProfile = user.getProfile();
+            this.userProfileImage = user.getProfileImage();
             this.userPhoneNumber = user.getPhoneNumber();
             this.userBirthday = user.getBirthday();
-            this.sns = user.getSns();
-            this.deleteCheck = user.getDeleteCheck();
             this.userRole = user.getRole();
             this.createdDate = user.getCreatedDate();
             this.updatedDate = user.getUpdatedDate();
@@ -245,16 +236,17 @@ public class UserDTO {
     @ToString
     @ApiModel(value = "관리자의 회원정보수정 입력", description = "변경 할 값만 입력")
     public static class PatchUserByAdminReqDTO {
-        @ApiModelProperty(value = "사용자 이름 입력.")
-        private String userName;
+        @ApiModelProperty(value = "사용자 닉네임 입력.")
+        private String userNickName;
         @ApiModelProperty(value = "사용자 전화번호 입력")
         private String userPhoneNumber;
         @ApiModelProperty(value = "사용자 생년월일 입력")
         private String userBirthday;
         @ApiModelProperty(value = "사용자 프로필 입력")
-        private String userProfile;
-        @ApiModelProperty(value = "사용자 탈퇴여부 입력\n\n available or withdraw")
-        private String deleteCheck;
+        private String userProfileImage;
+        @ApiModelProperty(value = "사용자 ROLE")
+        private String userRole;
+
     }
 }
 
