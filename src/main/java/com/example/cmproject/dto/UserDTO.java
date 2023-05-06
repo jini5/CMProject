@@ -85,6 +85,7 @@ public class UserDTO {
                     .phoneNumber(userPhoneNumber)
                     .birthday(userBirthday)
                     .role("ROLE_USER")
+                    .deleteCheck("available")
                     .build();
         }
 
@@ -96,7 +97,7 @@ public class UserDTO {
     @NoArgsConstructor
     @ToString
     @ApiModel(value = "회원정보수정 입력")
-    public static class PatchUserReqDTO {
+    public static class UpdateUserReqDTO {
 
         @ApiModelProperty(value = "기존 비밀번호", required = true)
         private String userPassword;
@@ -105,9 +106,9 @@ public class UserDTO {
         @ApiModelProperty(value = "새로운 비밀번호 재입력")
         private String passwordConfirmation;
         @ApiModelProperty(value = "프로필이미지")
-        private String profile;
-        @ApiModelProperty(value = "이름", required = true)
-        private String userName;
+        private String profileImage;
+        @ApiModelProperty(value = "닉네임", required = true)
+        private String userNickName;
         @ApiModelProperty(value = "전화번호")
         private String userPhoneNumber;
         @ApiModelProperty(value = "생년월일")
@@ -120,9 +121,9 @@ public class UserDTO {
     @NoArgsConstructor
     @ToString
     @ApiModel(value = "회원정보수정 출력")
-    public static class PatchUserResDTO {
+    public static class UpdateUserResDTO {
 
-        @ApiModelProperty(value = "이름", required = true)
+        @ApiModelProperty(value = "닉네임", required = true)
         private String userNickName;
         @ApiModelProperty(value = "이메일", required = true)
         private String userEmail;
@@ -135,7 +136,7 @@ public class UserDTO {
 
 
 
-        public PatchUserResDTO(User user) {
+        public UpdateUserResDTO(User user) {
             this.userNickName = user.getNickName();
             this.userEmail = user.getEmail();
             this.userBirthday = user.getBirthday();
@@ -215,6 +216,7 @@ public class UserDTO {
         private String userRole;
         private LocalDateTime createdDate;
         private LocalDateTime updatedDate;
+        private String deleteCheck;
 
         public UserDetailsForAdmin(User user) {
             this.userId = user.getUserId();
@@ -226,6 +228,7 @@ public class UserDTO {
             this.userRole = user.getRole();
             this.createdDate = user.getCreatedDate();
             this.updatedDate = user.getUpdatedDate();
+            this.deleteCheck = user.getDeleteCheck();
         }
     }
 
@@ -246,6 +249,8 @@ public class UserDTO {
         private String userProfileImage;
         @ApiModelProperty(value = "사용자 ROLE")
         private String userRole;
+        @ApiModelProperty(value = "사용자 탈퇴여부 입력\n\n available or withdraw")
+        private String deleteCheck;
 
     }
 }
