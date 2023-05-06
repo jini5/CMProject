@@ -57,12 +57,15 @@ public class User {
     @Column(name = "updated_date")
     private LocalDateTime updatedDate;
 
+    @Column(name = "delete_check")
+    private String deleteCheck;
+
     public void updatePassword(String password) {
         this.password = password;
     }
 
     @Builder
-    public User(String email, String password,String profileImage, String nickName, String birthday, String phoneNumber, String role) {
+    public User(String email, String password,String profileImage, String nickName, String birthday, String phoneNumber, String role, String deleteCheck) {
         this.email = email;
         this.password = password;
         this.profileImage=profileImage;
@@ -70,6 +73,7 @@ public class User {
         this.birthday = birthday;
         this.phoneNumber = phoneNumber;
         this.role = role;
+        this.deleteCheck = deleteCheck;
     }
 
     public void update(String changePassword,String profileImage, String nickName, String birthday, String phoneNumber) {
