@@ -20,12 +20,12 @@ public class PostLike {
     private Long PostLikeId;
 
     @JsonIgnore
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     @ManyToOne(fetch = LAZY)
     private User user;
 
     @JsonIgnore
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "post_id", nullable = false)
     @ManyToOne(fetch = LAZY)
     private Post post;
 
@@ -33,5 +33,12 @@ public class PostLike {
     public PostLike(Post post, User user){
         this.post = post;
         this.user = user;
+    }
+
+    public static PostLike createPostLike(User user, Post post) {
+        return PostLike.builder()
+                .user(user)
+                .post(post)
+                .build();
     }
 }

@@ -35,6 +35,10 @@ public class Category {
     @Column(name = "category_depth")
     private int categoryDepth;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private Role role;
+
     @OneToMany(mappedBy = "parent")
     private List<Category> children = new ArrayList<>();
 

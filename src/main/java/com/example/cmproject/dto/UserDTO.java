@@ -194,18 +194,6 @@ public class UserDTO {
     @AllArgsConstructor
     @NoArgsConstructor
     @ToString
-    @ApiModel(value = "사용자 여행 유형 dto")
-    public static class UserType {
-
-        @ApiModelProperty(value = "사용자 여행 유형 ", required = true)
-        private String userType;
-    }
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @ToString
     public static class UserDetailsForAdmin {
         private Long userId;
         private String userName;
@@ -252,6 +240,17 @@ public class UserDTO {
         @ApiModelProperty(value = "사용자 탈퇴여부 입력\n\n available or withdraw")
         private String deleteCheck;
 
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @ToString
+    @ApiModel(value = "개발용 비밀번호 변경")
+    public static class UpdatePWReqDTO {
+        @ApiModelProperty(value = "새롭게 변경할 비밀번호")
+        private String changePassword;
     }
 }
 
