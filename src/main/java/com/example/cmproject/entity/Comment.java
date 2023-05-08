@@ -33,11 +33,18 @@ public class Comment {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    @JoinColumn(name = "parent_id")
+    private Comment parent;
+
+    @Builder.Default
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent", orphanRemoval = true)
+    private List<Comment> children = new ArrayList<>();
+
+
     @Column(nullable = false)
     private Boolean likeStatus = false;
-
-    @Column(name = "LIKE_COUNT")// 좋아요갯수
-    private Integer likeCount = 0;
 
     @Column(name = "content", nullable = false)
     private String content;
@@ -51,14 +58,6 @@ public class Comment {
     @Column(name = "updated_time",nullable = false)
     private LocalDateTime updatedTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
-    @JoinColumn(name = "parent_id")
-    private Comment parent;         // 부모 댓글
-
-    @Builder.Default
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent", orphanRemoval = true)
-    private List<Comment> children = new ArrayList<>(); // 자식 댓글
 
     public void update(CommentDTO.CommentRequestDTO commentRequestDTO) {
         this.content = commentRequestDTO.getContent();
