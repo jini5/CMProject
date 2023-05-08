@@ -43,9 +43,6 @@ public class Post {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
-    @Column(name = "thumbnail")
-    @ColumnDefault("''")
-    private String thumbnail;
 
     @Column(name = "title")
     private String title;
@@ -57,11 +54,7 @@ public class Post {
     private List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<PostLike> postLikes = new ArrayList<>(); // 댓글 좋아요
-
-    @NotNull
-    @Column(name = "role")
-    private String role;
+    private List<PostLike> postLikes = new ArrayList<>(); // 게시판 좋아요
 
     @CreatedDate
     @Column(name = "created_date")
@@ -72,14 +65,17 @@ public class Post {
     private LocalDateTime updatedDate;
 
     @Builder
-    public Post(User user, Category category, String thumbnail, String title, String content, String role) {
+    public Post(User user, Category category, String title, String content) {
         this.user = user;
         this.category = category;
-        this.thumbnail = thumbnail;
         this.title = title;
         this.content = content;
-        this.role = role;
     }
-
+    public void update(String title, String content, Category category) {
+        this.title = title;
+        this.content = content;
+        this.category = category;
+        this.updatedDate = LocalDateTime.now();
+    }
 
 }
