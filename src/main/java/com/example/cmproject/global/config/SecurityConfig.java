@@ -33,7 +33,7 @@ public class SecurityConfig {
 
     private static final String[] PUBLIC_URLS = {
             "/auth/**", "/categories/**",
-            "/board", "/board/*",
+            "/comment/*", "/post/*",
             "/page/popular/regions", "/page/popular/products",
             "/page/**",
 
