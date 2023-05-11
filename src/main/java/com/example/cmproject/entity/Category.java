@@ -42,14 +42,19 @@ public class Category {
     @OneToMany(mappedBy = "parent")
     private List<Category> children = new ArrayList<>();
 
-    public Category(String name, Category parent, int categoryDepth) {
+    public Category(String name, int categoryDepth, Role role) {
         this.name = name;
-        this.parent = parent;
         this.categoryDepth = categoryDepth;
     }
 
-    public Category(String name, int categoryDepth) {
+    public Category(String categoryName, Category categoryParent, int categoryDepth, Role role) {
         this.name = name;
+        this.parent = parent;
         this.categoryDepth = categoryDepth;
+        this.role = role;
+    }
+
+    public Role getRole() {
+        return role;
     }
 }

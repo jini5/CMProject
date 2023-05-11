@@ -24,13 +24,33 @@ public class CommentLike {
     @ManyToOne(fetch = LAZY)
     private User user;
     @JsonIgnore
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "comment_id")
     @ManyToOne(fetch = LAZY)
     private Comment comment;
 
+    @JoinColumn(name = "isLiked")
+    private boolean isLiked;
 
-    public CommentLike(Comment comment, User user){
+
+    public CommentLike(Comment comment, User user, boolean isLiked){
         this.comment = comment;
         this.user = user;
+        this.isLiked = isLiked;
+    }
+
+    public static CommentLike CommentLike(User user, Comment comment, boolean isLiked) {
+        return CommentLike.builder()
+                .user(user)
+                .comment(comment)
+                .isLiked(isLiked)
+                .build();
+    }
+
+    public boolean getIsLiked() {
+        return isLiked;
+    }
+
+    public void setIsLiked(boolean isLiked) {
+        this.isLiked = isLiked;
     }
 }

@@ -59,15 +59,9 @@ public class Comment {
     private LocalDateTime updatedTime;
 
 
-    public void update(CommentDTO.CommentRequestDTO commentRequestDTO) {
-        this.content = commentRequestDTO.getContent();
+    public void update(CommentDTO.UpdateCommentReqDTO updateCommentReqDTO) {
+        this.content = updateCommentReqDTO.getContent();
+        this.updatedTime = LocalDateTime.now();
     }
 
-    public void updateParent(Comment parent){
-        this.parent = parent;
-    }
-
-    public boolean validateUser(User user) {
-        return !this.user.equals(user);
-    }
 }
