@@ -28,17 +28,30 @@ public class PostLike {
     @JoinColumn(name = "post_id", nullable = false)
     @ManyToOne(fetch = LAZY)
     private Post post;
+    @JoinColumn(name = "isLiked")
+    private boolean isLiked;
 
 
-    public PostLike(Post post, User user){
+    public PostLike(Post post, User user, boolean isLiked){
         this.post = post;
         this.user = user;
+        this.isLiked = isLiked;
     }
 
-    public static PostLike createPostLike(User user, Post post) {
+    public static PostLike PostLike(User user, Post post, boolean isLiked) {
         return PostLike.builder()
                 .user(user)
                 .post(post)
+                .isLiked(isLiked)
                 .build();
+    }
+
+
+    public boolean getIsLiked() {
+        return isLiked;
+    }
+
+    public void setIsLiked(boolean isLiked) {
+        this.isLiked = isLiked;
     }
 }
