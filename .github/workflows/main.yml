@@ -70,8 +70,8 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       run:
         aws deploy create-deployment
-        --application-name Community
-        --deployment-group-name 코드디플로이그룹명
+        --application-name CMProjectDeploy
+        --deployment-group-name CMProjectDeployGroup
         --file-exists-behavior OVERWRITE
         --s3-location bucket=S3my-project-buket,bundleType=zip,key=CMProject.zip
         --region ap-northeast-2
