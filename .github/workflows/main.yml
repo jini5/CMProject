@@ -8,7 +8,7 @@ on:
     branches: [ master ]
 
 env:
-  S3_BUCKET_NAME: cmprojectpictureupload
+  S3_BUCKET_NAME: my-project-buket
 
 jobs:
   build:
@@ -73,5 +73,5 @@ jobs:
         --application-name CMProjectDeploy
         --deployment-group-name CMProjectDeployGroup
         --file-exists-behavior OVERWRITE
-        --s3-location bucket=S3my-project-buket,bundleType=zip,key=CMProject.zip
+        --s3-location bucket=my-project-buket,bundleType=zip,key=CMProject.zip
         --region ap-northeast-2
