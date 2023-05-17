@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-@Api(tags = {"댓글 서비스"})
+@Api(tags = {"댓글 서비스"}, description = "댓글 작성, 수정, 삭제")
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
