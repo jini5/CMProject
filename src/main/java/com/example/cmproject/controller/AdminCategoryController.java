@@ -25,7 +25,7 @@ public class AdminCategoryController {
     }
 
     @PatchMapping("/{categoryId}")
-    @ApiOperation(value = "카테고리 이름 수정", notes = "카테고리 아이디와 카테고리 새로운 이름 입력.\n\n" +
+    @ApiOperation(value = "카테고리 수정", notes = "카테고리 아이디와 카테고리 새로운 이름 입력.\n\n" +
             "code: 200 수정됨, 406 이미 존재하는 이름, 404 해당 카테고리 ID 가 없음")
     public ResponseEntity<?> updateCategory(@PathVariable Long categoryId, @RequestBody CategoryDTO.UpdateCategory updateDTO) {
         return categoryService.updateCategory(categoryId, updateDTO);
