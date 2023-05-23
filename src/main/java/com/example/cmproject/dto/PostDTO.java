@@ -20,23 +20,22 @@ public class PostDTO {
 
     @Getter
     @Setter
-    @Builder
     @ApiModel(value = "게시글 생성")
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @ToString
     public static class CreatePostReqDTO {
 
         @NotNull
         private Long userId;
 
-        @ApiParam(value = "카테고리 ID", required = true)
-        @NotNull(message = "카테고리를 선택해 주세요.")
+        @ApiModelProperty(value = "카테고리 ID", required = true)
         private Long categoryId;
 
-        @ApiParam(value = "게시글 제목", required = true)
-        @NotBlank(message = "제목을 입력해 주세요.")
+        @ApiModelProperty(value = "게시글 제목", required = true)
         private String title;
 
-        @ApiParam(value = "게시글 내용", required = true)
-        @NotBlank(message = "내용을 입력해 주세요.")
+        @ApiModelProperty(value = "게시글 내용", required = true)
         private String content;
 
         public Post toEntity(User user, Category category) {
@@ -51,19 +50,19 @@ public class PostDTO {
 
     @Getter
     @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @ToString
     @ApiModel(value = "게시글 수정")
     public static class UpdateReqDTO {
 
-        @ApiParam(value = "카테고리 ID", required = true)
-        @NotNull(message = "카테고리를 선택해 주세요.")
+        @ApiModelProperty(value = "카테고리 ID", required = true)
         private Long categoryId;
 
-        @ApiParam(value = "글 제목", required = true)
-        @NotBlank(message = "제목을 입력해 주세요.")
+        @ApiModelProperty(value = "글 제목", required = true)
         private String title;
 
-        @ApiParam(value = "글 내용", required = true)
-        @NotBlank(message = "내용을 입력해 주세요.")
+        @ApiModelProperty(value = "글 내용", required = true)
         private String content;
 
         @ApiModelProperty(value = "게시글 수정일자")
