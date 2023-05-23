@@ -42,14 +42,20 @@ public class Category {
     @OneToMany(mappedBy = "parent")
     private List<Category> children = new ArrayList<>();
 
+    public void update(String name, Role role){
+        this.name = name;
+        this.role = role;
+    }
+
     public Category(String name, int categoryDepth, Role role) {
         this.name = name;
         this.categoryDepth = categoryDepth;
+        this.role =role;
     }
 
     public Category(String categoryName, Category categoryParent, int categoryDepth, Role role) {
-        this.name = name;
-        this.parent = parent;
+        this.name = categoryName;
+        this.parent = categoryParent;
         this.categoryDepth = categoryDepth;
         this.role = role;
     }
