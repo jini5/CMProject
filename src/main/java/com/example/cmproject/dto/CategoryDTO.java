@@ -19,13 +19,13 @@ public class CategoryDTO {
     @AllArgsConstructor
     @ApiModel(value = "카테고리 생성", description = "이름,단계,부모 입력")
     public static class CreateCategory {
-        @ApiModelProperty(value = "생성할 카테고리 이름", required = true)
+        @ApiModelProperty(value = "생성할 카테고리 이름")
         private String categoryName;
         @ApiModelProperty(value = "생성할 카테고리 단계 ( 1: 대분류, 2: 중분류, 3: 소분류 )", required = true)
         private int categoryDepth;
         @ApiModelProperty(value = "생성할 카테고리 부모 ID( 생성할 카테고리가 중분류, 소분류인 경우 필요, 대분류의 경우 아무값 넣어도 상관 없음.)", required = true)
         private Long categoryParent;
-        @ApiModelProperty(value = "카테고리 권한", required = true)
+        @ApiModelProperty(value = "카테고리 권한")
         private Role role;
 
         public Category toChild(Category categoryParent) {
