@@ -67,11 +67,11 @@ public class UserDTO {
         private String userPassword;
         @ApiModelProperty(value = "비밀번호 확인", required = true)
         private String passwordConfirmation;
-        @ApiModelProperty(value = "프로필이미지", required = true)
+        @ApiModelProperty(value = "프로필이미지")
         private String profileImage;
-        @ApiModelProperty(value = "전화번호", required = true)
+        @ApiModelProperty(value = "전화번호")
         private String userPhoneNumber;
-        @ApiModelProperty(value = "생년월일", required = true)
+        @ApiModelProperty(value = "생년월일")
         private String userBirthday;
 
 
@@ -127,11 +127,11 @@ public class UserDTO {
         private String userNickName;
         @ApiModelProperty(value = "이메일", required = true)
         private String userEmail;
-        @ApiModelProperty(value = "프로필이미지", required = true)
+        @ApiModelProperty(value = "프로필이미지")
         private String userProfileImage;
-        @ApiModelProperty(value = "전화번호", required = true)
+        @ApiModelProperty(value = "전화번호")
         private String userPhoneNumber;
-        @ApiModelProperty(value = "생년월일", required = true)
+        @ApiModelProperty(value = "생년월일")
         private String userBirthday;
 
 

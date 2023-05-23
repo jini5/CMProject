@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -54,6 +55,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<?> updatePost(UserDTO.UserAccessDTO userAccessDTO, PostDTO.UpdateReqDTO updateReqDTO, Long postId) {
         try {
             Post post = postRepository.findById(postId).orElseThrow(NoSuchElementException::new);

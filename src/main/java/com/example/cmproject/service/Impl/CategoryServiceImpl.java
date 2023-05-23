@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,13 +54,15 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<?> updateCategory(Long categoryId, CategoryDTO.UpdateCategory updateDTO) {
         try {
             if (categoryRepository.existsByName(updateDTO.getCategoryName())) {
                 return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
             }
             Category category = categoryRepository.findById(categoryId).orElseThrow(IllegalArgumentException::new);
-            category.setName(updateDTO.getCategoryName());
+            category.update(updateDTO.getCategoryName(), updateDTO.getRole());
+
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
