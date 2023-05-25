@@ -33,41 +33,24 @@ public class CommentServiceImpl implements CommentService {
             User user = userRepository.findByEmail(userAccessDTO.getEmail()).orElseThrow(NoSuchElementException::new);
             Post post = postRepository.findById(postId).orElseThrow(NoSuchElementException::new);
 
-            Comment comment = Comment.builder()
-                    .content(createCommentReqDTO.getContent())
-                    .user(user)
-                    .post(post)
-                    .createdTime(LocalDateTime.now())
-                    .updatedTime(LocalDateTime.now())
-                    .build();
-
-            commentRepository.save(comment);
-
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @Override
-    public ResponseEntity<?> createReComment(UserDTO.UserAccessDTO userAccessDTO, CommentDTO.ReCommentReqDTO reCommentReqDTO, Long commentId, Long postId) {
-        try {
-            User user = userRepository.findByEmail(userAccessDTO.getEmail()).orElseThrow(NoSuchElementException::new);
-            Post post = postRepository.findById(postId).orElseThrow(NoSuchElementException::new);
-            Comment parentComment = commentRepository.findById(commentId).orElseThrow(NoSuchElementException::new);
+            Comment parentComment = null;
+            if (createCommentReqDTO.getParentId() != null) {
+                parentComment = commentRepository.findById(createCommentReqDTO.getParentId()).orElse(null);
+            }
 
             Comment comment = Comment.builder()
-                    .content(reCommentReqDTO.getContent())
-                    .user(user)
                     .post(post)
+                    .user(user)
                     .parent(parentComment)
+                    .content(createCommentReqDTO.getContent())
+                    .depth(createCommentReqDTO.getDepth())
                     .createdTime(LocalDateTime.now())
                     .updatedTime(LocalDateTime.now())
+                    .deleteCheck(false)
                     .build();
-
             commentRepository.save(comment);
 
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -83,7 +66,9 @@ public class CommentServiceImpl implements CommentService {
             if (!comment.getUser().getUserId().equals(user.getUserId()) && !user.getRole().equals("ROLE_ADMIN")) {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
-            commentRepository.delete(comment);
+            comment.setDeleteCheck(true);
+            commentRepository.save(comment);
+
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

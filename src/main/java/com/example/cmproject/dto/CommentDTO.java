@@ -25,27 +25,15 @@ public class CommentDTO {
     @ApiModel(value = "댓글 작성")
     public static class CreateCommentReqDTO {
 
-        @ApiModelProperty(value = "게시물", required = true)
-        private Post post;
         @ApiModelProperty(value = "댓글 내용", required = true)
         private String content;
-
-        @Builder
-        public CreateCommentReqDTO(Post post, String content) {
-            this.post = post;
-            this.content = content;
-        }
-    }
-
-    @Getter
-    @NoArgsConstructor
-    @ApiModel(value = "대댓글 작성")
-    public static class ReCommentReqDTO {
-        @ApiModelProperty(value = "댓글 내용", required = true)
-        private String content;
-        @ApiModelProperty(value = "부모 댓글 ID", required = true)
+        @ApiModelProperty(value = "댓글 단계")
+        private int depth;
+        @ApiModelProperty(value = "상위 댓글")
         private Long parentId;
+
     }
+
 
 
     @Getter
