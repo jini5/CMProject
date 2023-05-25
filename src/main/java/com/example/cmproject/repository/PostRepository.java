@@ -12,5 +12,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     Optional<Post> findById(Long postId);
 
-    Page<Post> findByCategoryCategoryId(Long categoryId, String keyword, PageRequest pageRequest);
+    Page<Post> findByCategoryCategoryId(Long categoryId, PageRequest pageRequest);
 }

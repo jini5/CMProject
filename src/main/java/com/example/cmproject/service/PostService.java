@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 
 public interface PostService {
 
-    ResponseEntity<?> findPostList(Long categoryId, String keyword, int pageNumber);
+    ResponseEntity<?> findPostList(Long categoryId, int pageNumber);
 
     ResponseEntity<?> findDetail(UserDTO.UserAccessDTO userAccessDTO, Long postId);
 

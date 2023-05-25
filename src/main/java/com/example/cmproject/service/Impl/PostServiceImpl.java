@@ -96,10 +96,10 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    public ResponseEntity<?> findPostList(Long categoryId, String keyword, int pageNumber) {
+    public ResponseEntity<?> findPostList(Long categoryId, int pageNumber) {
         try {
             PageRequest pageRequest = PageRequest.of(pageNumber - 1, POST_LIST_SIZE);
-            Page<Post> postPage = postRepository.findByCategoryCategoryId(categoryId, keyword, pageRequest);
+            Page<Post> postPage = postRepository.findByCategoryCategoryId(categoryId, pageRequest);
             if (postPage == null) {
                 throw new NullPointerException();
             }
