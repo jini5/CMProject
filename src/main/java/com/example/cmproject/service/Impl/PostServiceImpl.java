@@ -2,10 +2,7 @@ package com.example.cmproject.service.Impl;
 
 import com.example.cmproject.dto.PostDTO;
 import com.example.cmproject.dto.UserDTO;
-import com.example.cmproject.entity.Category;
-import com.example.cmproject.entity.Post;
-import com.example.cmproject.entity.PostLike;
-import com.example.cmproject.entity.User;
+import com.example.cmproject.entity.*;
 import com.example.cmproject.repository.*;
 import com.example.cmproject.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -31,6 +29,10 @@ public class PostServiceImpl implements PostService {
     private final CategoryRepository categoryRepository;
     private final PostLikeRepository postLikeRepository;
 
+    private final CommentLikeRepository commentLikeRepository;
+
+    private final CommentRepository commentRepository;
+
 
 
     @Override
@@ -40,8 +42,8 @@ public class PostServiceImpl implements PostService {
             Category category = categoryRepository.findByCategoryId(createPostReqDTO.getCategoryId()).orElseThrow(NoSuchElementException::new);
             Post post = createPostReqDTO.toEntity(user, category);
 
-            if(!user.getRole().equals("ROLE_ADMIN")){
-                if(category.getRole().equals("ROLE_ADMIN_WRITE")){
+            if(category.getRole()== Role.ADMIN_WRITE){
+                if(!user.getRole().equals("ROLE_ADMIN")) {
                     return new ResponseEntity<>(HttpStatus.FORBIDDEN);
                 }
             }
@@ -85,6 +87,14 @@ public class PostServiceImpl implements PostService {
                 return new ResponseEntity<>(HttpStatus.FORBIDDEN);
             }
 
+            List<Comment> comments = post.getCommentList();
+            for(Comment comment: comments){
+                allDeleteComment(comment);
+            }
+
+            List<PostLike> postLikes = post.getPostLikes();
+            postLikes.forEach(postLike -> postLikeRepository.delete(postLike));
+
             postRepository.delete(post);
 
             return new ResponseEntity<>(HttpStatus.OK);
@@ -94,12 +104,26 @@ public class PostServiceImpl implements PostService {
         }
     }
 
+    private void allDeleteComment(Comment comment){
+
+        List<Comment> children = comment.getChildren();
+        for(Comment child : children){
+            allDeleteComment(child);
+        }
+
+        List<CommentLike> commentLikes = comment.getCommentLikes();
+        commentLikes.forEach(commentLike -> commentLikeRepository.delete(commentLike));
+
+
+        commentRepository.delete(comment);
+    }
+
 
     @Override
-    public ResponseEntity<?> findPostList(Long categoryId, String keyword, int pageNumber) {
+    public ResponseEntity<?> findPostList(Long categoryId, int pageNumber) {
         try {
             PageRequest pageRequest = PageRequest.of(pageNumber - 1, POST_LIST_SIZE);
-            Page<Post> postPage = postRepository.findByCategoryCategoryId(categoryId, keyword, pageRequest);
+            Page<Post> postPage = postRepository.findByCategoryCategoryId(categoryId, pageRequest);
             if (postPage == null) {
                 throw new NullPointerException();
             }

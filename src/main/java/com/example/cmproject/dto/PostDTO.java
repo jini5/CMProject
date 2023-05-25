@@ -26,9 +26,6 @@ public class PostDTO {
     @ToString
     public static class CreatePostReqDTO {
 
-        @NotNull
-        private Long userId;
-
         @ApiModelProperty(value = "카테고리 ID", required = true)
         private Long categoryId;
 
