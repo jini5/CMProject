@@ -6,7 +6,6 @@
 - Spring Security
 - JWT (JSON Web Token)
 - MariaDB
-- MyBatis
 - Swagger
 
 ## ERD
