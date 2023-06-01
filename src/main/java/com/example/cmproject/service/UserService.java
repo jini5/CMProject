@@ -22,4 +22,5 @@ public interface UserService {
 
     ResponseEntity<?> sendPwEmail(String userEmail);
 
+    ResponseEntity<?> checkNickName(String nickName);
 }
