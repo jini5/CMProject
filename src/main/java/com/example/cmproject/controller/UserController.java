@@ -40,11 +40,7 @@ public class UserController {
         return userService.deleteUser(userAccessDTO, deleteUserReqDTO);
     }
 
-    @PostMapping("/checkNickName")
-    @ApiOperation(value = "닉네임 확인", notes = "닉네임 중복 검사.")
-    public ResponseEntity<?> checkNiockName(@AuthenticationPrincipal String nickName){
-        return userService.checkNickName(nickName);
-    }
+
 
 
 }

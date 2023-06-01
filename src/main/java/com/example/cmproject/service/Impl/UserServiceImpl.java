@@ -182,7 +182,7 @@ public class UserServiceImpl implements UserService {
 
         Boolean check = userRepository.findByNickName(nickName).isPresent();
 
-        if(!check){
+        if(check){
             String str = "This nickname already exists.";
             return new ResponseEntity(str, HttpStatus.BAD_REQUEST);
         }

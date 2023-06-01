@@ -8,6 +8,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -64,6 +65,12 @@ public class AuthController {
         return userService.sendPwEmail(email);
     }
 
+
+    @PostMapping("/checkNickName")
+    @ApiOperation(value = "닉네임 확인", notes = "닉네임 중복 검사.")
+    public ResponseEntity<?> checkNiockName(@RequestParam String nickName){
+        return userService.checkNickName(nickName);
+    }
 
 //    @PostMapping("/")
 //    @ApiOperation(value = "카카오 로그인", notes = "소셜 로그인 중 카카오를 사용한 회원가입, 로그인.\n\n" +
