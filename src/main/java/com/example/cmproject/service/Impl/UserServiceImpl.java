@@ -34,6 +34,9 @@ public class UserServiceImpl implements UserService {
     public static final String PASSPORT_PATTERN = "^[A-Z]+$";
     //여권 영어 이름, 성
 
+
+
+
     @Override
     public ResponseEntity<?> signup(UserDTO.SignupReqDTO signupReqDTO) {
         if (userRepository.findByEmail(signupReqDTO.getUserEmail()).isPresent() ||
@@ -42,6 +45,10 @@ public class UserServiceImpl implements UserService {
         }
         if (!signupReqDTO.getUserEmail().matches(EMAIL_PATTERN)) {
             String str = "Please use the email format.";
+            return new ResponseEntity(str, HttpStatus.BAD_REQUEST);
+        }
+        if(userRepository.findByNickName(signupReqDTO.getNickName()).isPresent()){
+            String str = "This nickname already exists.";
             return new ResponseEntity(str, HttpStatus.BAD_REQUEST);
         }
         String encodingPassword = encodingPassword(signupReqDTO.getUserPassword());
@@ -166,6 +173,20 @@ public class UserServiceImpl implements UserService {
 
         MailDTO mailDTO = createMail(tmpPassword, userEmail);
         sendMail(mailDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<?> checkNickName(String nickName) {
+
+        Boolean check = userRepository.findByNickName(nickName).isPresent();
+
+        if(check){
+            String str = "This nickname already exists.";
+            return new ResponseEntity(str, HttpStatus.BAD_REQUEST);
+        }
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
