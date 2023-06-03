@@ -7,10 +7,8 @@ import com.example.cmproject.entity.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -173,5 +171,13 @@ public class PostDTO {
             this.updatedDate = post.getUpdatedDate();
         }
 
+        public PostResDTO(Post post) {
+            this.postId = post.getPostId();
+            this.title = post.getTitle();
+            this.nickname = post.getUser().getNickName();
+            this.likeCount = post.getPostLikes().size();
+            this.createdDate = post.getCreatedDate();
+            this.updatedDate = post.getUpdatedDate();
+        }
     }
 }
