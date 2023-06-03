@@ -71,4 +71,15 @@ public class CategoryDTO {
 
     }
 
+
+    @Getter
+    public static class ViewCategoryForPost {
+        private String categoryName;
+        private Long categoryId;
+
+        public ViewCategoryForPost(Category category) {
+            this.categoryName = category.getName();
+            this.categoryId = category.getCategoryId();
+        }
+    }
 }
