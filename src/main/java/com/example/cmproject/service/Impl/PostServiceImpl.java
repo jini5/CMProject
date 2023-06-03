@@ -3,6 +3,7 @@ package com.example.cmproject.service.Impl;
 import com.example.cmproject.dto.PostDTO;
 import com.example.cmproject.dto.UserDTO;
 import com.example.cmproject.entity.*;
+import com.example.cmproject.global.response.PageResponseDTO;
 import com.example.cmproject.repository.*;
 import com.example.cmproject.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +17,10 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.example.cmproject.global.config.PageSizeConfig.POST_LIST_SIZE;
+import static com.example.cmproject.global.config.PageSizeConfig.Post_List_By_Keyword;
 
 
 @Service
@@ -33,7 +36,7 @@ public class PostServiceImpl implements PostService {
 
     private final CommentRepository commentRepository;
 
-
+    private final PostCustomRepository postCustomRepository;
 
     @Override
     public ResponseEntity<?> createPost(UserDTO.UserAccessDTO userAccessDTO, PostDTO.CreatePostReqDTO createPostReqDTO) {
@@ -227,7 +230,32 @@ public class PostServiceImpl implements PostService {
         }
     }
 
+    @Override
+    public ResponseEntity<?> findPostByKeywordAndType(String keyword, int page, SearchType type) {
 
+        try {
+            if (page < 1) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            PageRequest pageable = PageRequest.of(page - 1, Post_List_By_Keyword);
+            Page<Post> postPage = postCustomRepository.searchByKeywordAndType(pageable, keyword, type);
+
+            if (postPage.getTotalElements() < 1) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            PageResponseDTO pageResponseDTO = new PageResponseDTO(postPage);
+            pageResponseDTO.setContent(
+                    postPage.getContent().stream()
+                            .map(PostDTO.PostResDTO::new)
+                            .collect(Collectors.toList())
+            );
+
+            return new ResponseEntity<>(pageResponseDTO, HttpStatus.OK);
+        } catch(NoSuchElementException e) {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    }
 
 
 }
