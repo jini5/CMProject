@@ -50,6 +50,8 @@ public class Comment {
 
     @Column(name = "depth", nullable = false)
     private int depth;
+
+    @Builder.Default
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
     private List<CommentLike> commentLikes = new ArrayList<>(); // 댓글 좋아요
 
