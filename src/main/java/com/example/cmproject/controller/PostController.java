@@ -3,6 +3,7 @@ package com.example.cmproject.controller;
 
 import com.example.cmproject.dto.PostDTO;
 import com.example.cmproject.dto.UserDTO;
+import com.example.cmproject.entity.SearchType;
 import com.example.cmproject.service.PostService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -70,5 +71,14 @@ public class PostController {
     public ResponseEntity<?> cancelLikePost(@AuthenticationPrincipal UserDTO.UserAccessDTO userAccessDTO, @PathVariable Long postId) {
         return postService.cancelLikePost(userAccessDTO, postId);
     }
+
+    @ApiOperation(value = "게시글 검색", notes = "키워드로 게시글을 검색한다.\n\n" + "code: 200 조회 성공, 204 조회 성공 + 표시할 내용 없음, 500 알 수 없는 서버 오류")
+    @GetMapping("/searchPost")
+    public ResponseEntity<?> searchPost(@RequestParam(required = true) String keyword,
+                                        @RequestParam(required = false, defaultValue = "1") int page,
+                                        @RequestParam("type")SearchType type) {
+        return postService.findPostByKeywordAndType(keyword, page, type);
+    }
+
 
 }
