@@ -3,6 +3,7 @@ package com.example.cmproject.service;
 import com.example.cmproject.dto.PostDTO;
 import com.example.cmproject.dto.UserDTO;
 import com.example.cmproject.entity.Category;
+import com.example.cmproject.entity.SearchType;
 import org.springframework.http.ResponseEntity;
 
 public interface PostService {
@@ -23,4 +24,6 @@ public interface PostService {
     ResponseEntity<?> dislikePost(UserDTO.UserAccessDTO userAccessDTO, Long postId);
 
     ResponseEntity<?> cancelLikePost(UserDTO.UserAccessDTO userAccessDTO, Long postId);
+
+    ResponseEntity<?> findPostByKeywordAndType(String keyword, int page, SearchType type);
 }
