@@ -147,19 +147,30 @@ public class PostServiceImpl implements PostService {
     public ResponseEntity<?> findDetail(UserDTO.UserAccessDTO userAccessDTO,Long postId) {
         try {
             Post post = postRepository.findById(postId).orElseThrow(NoSuchElementException::new);
+            Category category = categoryRepository.findByCategoryId(post.getCategory().getCategoryId()).orElseThrow(NoSuchElementException::new);
+
+            if(userAccessDTO == null){ // 토큰없이
+                if((category.getRole() == Role.ALL_READ)||(category.getRole() == Role.ADMIN_WRITE)){
+                    PostDTO.PostDetailResDTO postDetailResDTO = PostDTO.PostDetailResDTO.builder()
+                            .post(post)
+                            .build();
+                    return new ResponseEntity<>(postDetailResDTO,HttpStatus.OK);
+                }
+            }
+
             User user = userRepository.findByEmail(userAccessDTO.getEmail()).orElseThrow(NoSuchElementException::new);
-
+            if(category.getRole()== Role.MEMBER_READ){
+                if(!user.getRole().equals("ROLE_USER") && !user.getRole().equals("ROLE_ADMIN")) {
+                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                }
+            }
             boolean isLiked = postLikeRepository.existsByUserAndPost(user, post);
-
             PostDTO.PostDetailResDTO postDetailResDTO = PostDTO.PostDetailResDTO.builder()
                     .post(post)
                     .isLiked(isLiked)
                     .build();
-
             return new ResponseEntity<>(postDetailResDTO,HttpStatus.OK);
-
         } catch (NoSuchElementException e) {
-
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
