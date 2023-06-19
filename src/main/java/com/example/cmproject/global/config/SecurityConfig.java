@@ -33,8 +33,7 @@ public class SecurityConfig {
 
     private static final String[] PUBLIC_URLS = {
             "/auth/**", "/categories/**",
-            "/comment/*", "/post/*",
-            "/page/popular/regions", "/page/popular/products",
+            "/comment/**", "/post/**","/post/detail/**",
             "/page/**",
 
             /* swagger v3 */
